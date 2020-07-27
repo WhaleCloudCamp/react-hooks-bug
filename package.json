@@ -1,0 +1,15 @@
+{
+  "name": "hooks-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "alita dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "alita": "^2.5.7"
+  }
+}
