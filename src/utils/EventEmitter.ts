@@ -7,7 +7,7 @@ class EventEmitter<T> {
         this.subscriptions(val);
     };
 
-    useSubscription = (callback: Subscription<T>) => {
+    useSubscription = (callback: Subscription<any>) => {
         function subscription(val: T) {
             if (callback) {
                 callback(val);
