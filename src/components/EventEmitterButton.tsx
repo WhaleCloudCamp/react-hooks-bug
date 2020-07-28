@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { layoutEmitter } from '@/utils/EventEmitter';
 
-export default ({ initNumber }) => {
+export default (props:any) => {
 
-    const [state, setstate] = useState(initNumber);
+    const [num, setNum] = useState(props.initNumber);
 
+    // useEffect(() => {
+    //     layoutEmitter.emit({num:a});  
+    //     return ()=>{}
+    // }, [num])
+    console.log(num);
     return <button
         style={{ fontSize: '30px' }}
         onClick={() => {
-            setstate(state + 1)
-            layoutEmitter.emit({ state });
+            const a =num+1;
+            setNum(a)
+            layoutEmitter.emit({num:a});  
         }}
-    >EventEmitter {state} </button>
+    >EventEmitter {num} </button>
 };
