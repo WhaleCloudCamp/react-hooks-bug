@@ -1,14 +1,14 @@
-type Subscription<T> = (val: T) => void;
+type Subscription<T> = (val: any) => void;
 class EventEmitter<T> {
-    private subscriptions: { (arg0: T): void; (val: T): void; } | undefined;
+    private subscriptions: { (arg0: any): void; (val: any): void; } | undefined;
 
-    emit = (val: T) => {
+    emit = (val: any) => {
         //@ts-ignore
         this.subscriptions(val);
     };
 
     useSubscription = (callback: Subscription<T>) => {
-        function subscription(val: T) {
+        function subscription(val: any) {
             if (callback) {
                 callback(val);
             }
