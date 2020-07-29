@@ -22,7 +22,7 @@ export default () => {
             list.push(data as ListItemProps);
             setList([...list]);
         });
-    }, [])
+    }, [list])
 
     return (
         <div>
