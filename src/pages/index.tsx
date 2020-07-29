@@ -28,7 +28,11 @@ export default () => {
         <div>
             <EventEmitterButton initNumber={11} />
             <button style={{ fontSize: '0.6rem' }} onClick={() => {
-                setList([...list, { state: new Date().getTime() }])
+                // 每次改变list值的时候都使用emit去提交，不然两边的数据不同步
+                layoutEmitter.emit({ state: new Date().getTime() });
+
+                // 这里直接使用setList只是将本页面中的list改变，并没有改变layoutEmitter所绑定的list值
+                // setList([...list, { state: new Date().getTime() }])
             }}>Add List</button>
             <p>list length:{list.length}</p>
             {
