@@ -1,43 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { layoutEmitter } from "@/utils/EventEmitter";
 import EventEmitterButton from "@/components/EventEmitterButton";
-
-export interface IStateData {
-  state: number;
+interface ListItemProps {
+  state?: number;
 }
-
 export default () => {
-  const [list, setList] = useState<Array<IStateData>>([]);
+  const [list, setList] = useState<ListItemProps[]>(() => []);
 
   useEffect(() => {
     layoutEmitter.useSubscription((data) => {
-      // list.push(data);
-
-      // fixed: 不能在 setState 外直接操作 state，react 数据的不可变性。
-      // 直接操作 state 会导致之前的变更无效（应该是这个原因），所以 DOM 不会重新渲染。
-
-      console.log(data);
-      console.log(list);
-      // setList(list);
-
-      if (data as IStateData) {
-        // fixed: unkonwn 类型只能分配给 unkonwn 或者 any，所以做个类型断言。
-        setList([...list, data as IStateData]);
-      } else {
-        return;
-      }
+      // 按你们的写法实现的
+      // bug 重现步骤
+      // 点击 EventEmitterButton 两次
+      // 点击 Add List 一次
+      // 点击 EventEmitterButton 一次
+      // 期望结果
+      // 11
+      // 12
+      // 时间戳
+      // 13
+      list.push(data as ListItemProps);
+      setList([...list]);
     });
-  }, [list.length]);
+  }, []);
 
   return (
     <div>
       <EventEmitterButton initNumber={11} />
+      <button
+        style={{ fontSize: "0.6rem" }}
+        onClick={() => {
+          // setList([...list, { state: new Date().getTime() }]); // 不会触发 useEffect，也就不会 re-render
+          layoutEmitter.emit({ state: new Date().getTime() }); // fixed: 每次点击提交一个 emit，触发 subscription，进行 setList。
+        }}
+      >
+        Add List
+      </button>
       <p>list length:{list.length}</p>
-      {
-        list.map(({ state }) => (
-          <p key={`_${state}`}>{state}</p>
-        )) // fixed: 少了 key，顺便把 state 解构出来，写 item.state 多麻烦。
-      }
+      {list.map((item) => (
+        <p key={item.state}>{item.state}</p>
+      ))}
     </div>
   );
 };
