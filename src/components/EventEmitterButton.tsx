@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { layoutEmitter } from '@/utils/EventEmitter';
 
-export default ({ initNumber }: { initNumber: number }) => {
+export default ({initNumber}:{initNumber :number}) => {
 
     const [state, setstate] = useState<number>(initNumber);
 
